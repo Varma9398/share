@@ -1145,45 +1145,83 @@
     const userId = getUrlParameter('user');
     if (userId) {
       sharedUserId = userId;
+      
+      // Always set to public view mode when a user parameter is present
+      currentView = 'public';
+      
+      // Hide the form section for all shared links
+      document.querySelector('.form-section').style.display = 'none';
+      
+      // Hide auth button if in shared view
+      authButton.style.display = 'none';
+      
+      // Update view toggle if it exists
+      if (viewToggle) {
+        ownerView.classList.remove('active');
+        publicView.classList.add('active');
+      }
+      
       const sharedUser = users.find(u => u.id === userId);
       
       if (sharedUser) {
         // Display only public prompts from this user
         prompts = sharedUser.prompts.filter(p => p.isPublic);
-        document.querySelector('.form-section').style.display = 'none';
         
         // Update header to show we're viewing shared prompts
         const headerText = document.querySelector('header > span');
         headerText.textContent = `${sharedUser.username}'s Shared Prompts`;
+      } else {
+        // Handle case when user is not found (e.g., in incognito mode)
+        // Provide sample prompts for demonstration
+        prompts = [
+          {
+            prompt: "What are the key principles of effective leadership?",
+            aiName: "Claude",
+            modelName: "Claude 3 Opus",
+            result: "Effective leadership is built on several key principles:<br><br>1. <strong>Vision</strong>: Leaders create and communicate a compelling vision that inspires others.<br>2. <strong>Integrity</strong>: Ethical behavior and consistency between words and actions.<br>3. <strong>Emotional Intelligence</strong>: Understanding and managing emotions of self and others.<br>4. <strong>Communication</strong>: Clear, transparent, and two-way communication.<br>5. <strong>Empowerment</strong>: Delegating authority and enabling others to succeed.<br>6. <strong>Adaptability</strong>: Flexibility in the face of change and uncertainty.<br>7. <strong>Accountability</strong>: Taking responsibility for decisions and outcomes.<br>8. <strong>Continuous Learning</strong>: Commitment to personal growth and development.",
+            timestamp: new Date().toLocaleString(),
+            isPublic: true,
+            id: "sample1"
+          },
+          {
+            prompt: "Explain quantum computing in simple terms",
+            aiName: "GPT-4",
+            modelName: "GPT-4o",
+            result: "Quantum computing is like having a super-powered calculator that can consider multiple possibilities at once.<br><br>In regular computing, information is processed as bits (0s and 1s) - like light switches that are either on or off.<br><br>In quantum computing, we use quantum bits or 'qubits'. The magic of qubits is that they can exist in multiple states simultaneously - not just on or off, but somewhere in between or both at once. This is called 'superposition'.<br><br>Imagine if you could check every possible route to work simultaneously instead of trying them one by one. That's the power of quantum computing - it can explore many solutions to complex problems at the same time.<br><br>This makes quantum computers potentially much faster than regular computers for certain types of problems, like breaking encryption codes, simulating molecules for drug discovery, or optimizing complex systems.",
+            timestamp: new Date().toLocaleString(),
+            isPublic: true,
+            id: "sample2"
+          }
+        ];
         
-        // Hide auth button if in shared view
-        authButton.style.display = 'none';
-        
-        // Add a back button
-        const backButton = document.createElement('button');
-        backButton.textContent = '← Back to My Prompts';
-        backButton.style.position = 'absolute';
-        backButton.style.left = '20px';
-        backButton.style.top = '50%';
-        backButton.style.transform = 'translateY(-50%)';
-        backButton.style.padding = '8px 16px';
-        backButton.style.border = '1px solid var(--border-color)';
-        backButton.style.borderRadius = 'var(--border-radius)';
-        backButton.style.background = 'var(--bg-card)';
-        backButton.style.cursor = 'pointer';
-        backButton.style.display = currentUser ? 'block' : 'none';
-        
-        backButton.addEventListener('click', () => {
-          // Remove URL parameters and reload
-          window.history.pushState({}, document.title, window.location.pathname);
-          location.reload();
-        });
-        
-        document.querySelector('header').appendChild(backButton);
-        
-        renderPrompts();
-        return true;
+        // Update header for shared view
+        const headerText = document.querySelector('header > span');
+        headerText.textContent = 'Sample Shared Prompts';
       }
+      
+      // Add a back button
+      const backButton = document.createElement('button');
+      backButton.textContent = '← Back';
+      backButton.style.position = 'absolute';
+      backButton.style.left = '20px';
+      backButton.style.top = '50%';
+      backButton.style.transform = 'translateY(-50%)';
+      backButton.style.padding = '8px 16px';
+      backButton.style.border = '1px solid var(--border-color)';
+      backButton.style.borderRadius = 'var(--border-radius)';
+      backButton.style.background = 'var(--bg-card)';
+      backButton.style.cursor = 'pointer';
+      
+      backButton.addEventListener('click', () => {
+        // Remove URL parameters and reload
+        window.history.pushState({}, document.title, window.location.pathname);
+        location.reload();
+      });
+      
+      document.querySelector('header').appendChild(backButton);
+      
+      renderPrompts();
+      return true;
     }
     return false;
   }
@@ -1348,20 +1386,11 @@
     }
   });
   
-  // Logout, Export and Share
+  // Logout and Export
   logoutMenuItem.addEventListener('click', logout);
   exportMenuItem.addEventListener('click', () => {
     exportAllPrompts();
     closeUserDropdown();
-  });
-  
-  // Share all public prompts
-  const shareAllMenuItem = document.getElementById('shareAllMenuItem');
-  shareAllMenuItem.addEventListener('click', () => {
-    if (currentUser) {
-      sharePrompt(currentUser.id);
-      closeUserDropdown();
-    }
   });
   
   // View toggle
