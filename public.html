@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Prompt Sharing — Public View</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <span id="headerTitle">Shared Prompts</span>
+  <a href="owner.html" id="backButton" class="back-button" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); padding: 8px 16px; border: 1px solid var(--border-color); border-radius: var(--border-radius); background: var(--bg-card); cursor: pointer; text-decoration: none; color: var(--text-primary);">Back to Home</a>
+</header>
+
+<div class="controls">
+  <div class="control-group">
+    <label>Font Size:</label>
+    <input id="fontSize" type="number" value="16" min="8" max="72" step="1">
+  </div>
+
+  <div class="control-group">
+    <label>Card Width:</label>
+    <input id="cardWidth" type="number" value="500" min="200" max="1200" step="10">
+  </div>
+
+  <div class="control-group">
+    <label>Font Family:</label>
+    <select id="fontFamily">
+      <option value="'Inter', Arial, sans-serif">Inter</option>
+      <option value="'Space Grotesk', Arial, sans-serif">Space Grotesk</option>
+      <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+      <option value="'Playfair Display', serif">Playfair Display</option>
+      <option value="Georgia, serif">Georgia</option>
+      <option value="'Helvetica Neue', Arial, sans-serif">Helvetica</option>
+      <option value="'Times New Roman', serif">Times</option>
+      <option value="'Courier New', monospace">Courier</option>
+    </select>
+  </div>
+</div>
+
+<div id="promptList"></div>
+
+<script src="public.js"></script>
+</body>
+</html>

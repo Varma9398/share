@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Prompt Sharing — Owner View</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="authContainer" class="auth-container" style="display: none;">
+  <div class="auth-modal">
+    <div class="auth-tabs">
+      <div id="loginTab" class="auth-tab active">Login</div>
+      <div id="signupTab" class="auth-tab">Sign Up</div>
+    </div>
+    
+    <div id="loginForm" class="auth-form">
+      <input type="email" id="loginEmail" placeholder="Email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button id="loginButton">Login</button>
+      <div id="loginError" class="auth-error"></div>
+    </div>
+    
+    <div id="signupForm" class="auth-form" style="display: none;">
+      <input type="text" id="signupUsername" placeholder="Username" required>
+      <input type="email" id="signupEmail" placeholder="Email" required>
+      <input type="password" id="signupPassword" placeholder="Password" required>
+      <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required>
+      <button id="signupButton">Sign Up</button>
+      <div id="signupError" class="auth-error"></div>
+      <div id="signupSuccess" class="auth-success"></div>
+    </div>
+  </div>
+</div>
+
+<header>
+  <span>Prompt Sharing</span>
+  <div id="userProfile" class="user-profile" style="display: none;">
+    <div id="userAvatar" class="user-avatar">U</div>
+    <span id="username">Username</span>
+    <div class="user-menu">
+      <div id="userDropdown" class="user-dropdown">
+        <div id="profileMenuItem" class="user-dropdown-item">Profile</div>
+        <div id="exportMenuItem" class="user-dropdown-item">Export Prompts</div>
+        <div id="shareAllMenuItem" class="user-dropdown-item">Share All Public Prompts</div>
+        <div id="logoutMenuItem" class="user-dropdown-item">Logout</div>
+      </div>
+    </div>
+  </div>
+  <button id="authButton" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); padding: 8px 16px; border: 1px solid var(--border-color); border-radius: var(--border-radius); background: var(--bg-card); cursor: pointer;">Login / Sign Up</button>
+</header>
+
+<div id="viewToggle" class="view-toggle">
+  <div id="ownerView" class="view-toggle-option active">Owner View</div>
+  <div id="publicView" class="view-toggle-option">Public View</div>
+</div>
+
+<div class="controls">
+  <div class="control-group">
+    <label>Font Size:</label>
+    <input id="fontSize" type="number" value="16" min="8" max="72" step="1">
+  </div>
+
+  <div class="control-group">
+    <label>Card Width:</label>
+    <input id="cardWidth" type="number" value="500" min="200" max="1200" step="10">
+  </div>
+
+  <div class="control-group">
+    <label>Font Family:</label>
+    <select id="fontFamily">
+      <option value="'Inter', Arial, sans-serif">Inter</option>
+      <option value="'Space Grotesk', Arial, sans-serif">Space Grotesk</option>
+      <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+      <option value="'Playfair Display', serif">Playfair Display</option>
+      <option value="Georgia, serif">Georgia</option>
+      <option value="'Helvetica Neue', Arial, sans-serif">Helvetica</option>
+      <option value="'Times New Roman', serif">Times</option>
+      <option value="'Courier New', monospace">Courier</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-section">
+  <input id="promptInput" placeholder="Enter your prompt">
+  <input id="aiNameInput" placeholder="AI Name (e.g., Claude, GPT-4, Gemini)">
+  <input id="modelNameInput" placeholder="Model Name (e.g., Sonnet 3.5, GPT-4o)">
+  <textarea id="resultInput" rows="6" placeholder="Paste AI result here"></textarea>
+  <button id="addPromptBtn">Add Prompt</button>
+</div>
+
+<div id="promptList"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
